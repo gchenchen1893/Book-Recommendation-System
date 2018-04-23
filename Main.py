@@ -38,7 +38,7 @@ def Distribution(ratings):
 	plt.ylabel('Count')
 	plt.show()
 
-# Distribution(ratings)
+Distribution(ratings)
 def Recommendation_System_BookList(us_canada_user_rating):
 	us_canada_user_rating_pivot = us_canada_user_rating.pivot(index = 'userID', columns = 'bookTitle', values = 'bookRating').fillna(0)
 	# us_canada_user_rating_pivot.head()
