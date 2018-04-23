@@ -8,3 +8,5 @@ Nowadays, reading is still one of the major ways for entertainment. However, som
 
 - Related Work: 
 There are many book recommendation services on the internet, such like Amazon’s Book Selling website, BookCrossing.com and so on. Researchers tried to use different algorithms to enhance the efficiency of their recommendation system. I think the biggest difference between our system and Amazon’s Book Selling system is that our system only recommends related books given the book you are currently interested in. Amazon website, on the other hand, will give you a lot of entries for the same book but from different sellers. Based on prices and promotions, some other books might even show up higher than the actual recommended books.
+
+https://csce670teamreaders.wordpress.com/
