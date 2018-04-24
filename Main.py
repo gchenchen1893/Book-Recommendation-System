@@ -38,7 +38,7 @@ def Distribution(ratings):
 	plt.ylabel('Count')
 	plt.show()
 
-# Distribution(ratings)
+Distribution(ratings)
 def Recommendation_System_BookList(us_canada_user_rating):
 	us_canada_user_rating_pivot = us_canada_user_rating.pivot(index = 'userID', columns = 'bookTitle', values = 'bookRating').fillna(0)
 	# us_canada_user_rating_pivot.head()
@@ -92,12 +92,15 @@ while True:
 # User-User Collaborative Filtering Recommendations
 if modeNum == 1:
 	while True:
-		input_userid = int(raw_input("Please type in the user-ID (between 8 and 278854) you want: "))
-		if input_userid in valid_id_list:
-			UserPredict.User_Recommendation(us_canada_user_rating,input_userid)
-			break
-		else:
-			print "Non-valid user ID! Please try again."
+		try:
+			input_userid = int(raw_input("Please type in the user-ID (between 8 and 278854) you want: "))
+			if input_userid in valid_id_list:
+				UserPredict.User_Recommendation(us_canada_user_rating,input_userid)
+				break
+			else:
+				print "Non-valid user ID! Please try again."
+		except ValueError:
+			print "Could not convert the input to an integer."
 
 # Book-Book Collaborative Filtering Recommendations
 if modeNum == 2:
