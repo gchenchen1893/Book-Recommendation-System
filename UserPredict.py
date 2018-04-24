@@ -22,7 +22,7 @@ def User_Recommendation(us_canada_user_rating,userID):
 		print "user ID error or the user has been removed,please check again"
 		return
 
-	has_rated=[] 
+	has_rated=[]
 	#we just need to return books that the input user didn't rate
 	user_vec = us_canada_user_rating_pivot.iloc[:,index].values
 	for i in range(0,len(user_vec)):
@@ -44,7 +44,7 @@ def User_Recommendation(us_canada_user_rating,userID):
 	for book in range(0,len(book_title)):
 		if us_canada_user_rating_pivot.iloc[book,index] == 0:
 			sum = 0
-			for user in range(0,len(users)): 
+			for user in range(0,len(users)):
 				if user == index:
 					continue
 				temp = corr_list[user]*us_canada_user_rating_pivot.iloc[book,user]
@@ -76,7 +76,7 @@ def User_Recommendation_Input(us_canada_user_rating,input_vec):
 	book_title = list(us_canada_user_rating_pivot.index)
 	users = list(us_canada_user_rating_pivot.columns)
 
-	has_rated=[] 
+	has_rated=[]
 	#we just need to return books that the input user didn't rate
 	user_vec = input_vec
 	for i in range(0,len(user_vec)):
@@ -97,7 +97,7 @@ def User_Recommendation_Input(us_canada_user_rating,input_vec):
 		if input_vec[book] == 0:
 		#if us_canada_user_rating_pivot.iloc[book,index] == 0:
 			sum = 0
-			for user in range(0,len(users)): 
+			for user in range(0,len(users)):
 				temp = corr_list[user]*us_canada_user_rating_pivot.iloc[book,user]
 				if math.isnan(temp):
 					continue
@@ -140,7 +140,7 @@ def Build_Input_Vec(most_rated_book,us_canada_user_rating):
 				index.append(j)
 	rate_value=[]
 	for i in range(0,len(most_rated_book)):
-		temp = float(raw_input("Please input your rating for {0}: ".format(most_rated_book[i])))
+		temp = float(raw_input("Please input your rating (float number between 0 and 10) for {0}: ".format(most_rated_book[i])))
 		rate_value.append(temp)
 	vec=[]
 	for i in range(0,len(book_title)):
