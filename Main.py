@@ -12,7 +12,6 @@ users.columns = ['userID', 'Location', 'Age']
 ratings = pd.read_csv('BX-Book-Ratings.csv', sep=';', error_bad_lines=False, encoding="latin-1")
 ratings.columns = ['userID', 'ISBN', 'bookRating']
 
-
 # Data Analysis
 def Distribution(ratings):
 	# Here, we sorted the books according to their rating counts and show their average ratings
@@ -20,7 +19,7 @@ def Distribution(ratings):
 	count_rating = pd.DataFrame(ratings.groupby('ISBN')['bookRating'].count())
 	average_rating = pd.DataFrame(ratings.groupby('ISBN')['bookRating'].mean())
 	average_rating['ratingCount'] = pd.DataFrame(ratings.groupby('ISBN')['bookRating'].count())
-	print average_rating.sort_values('ratingCount', ascending=False).head()
+	res = average_rating.sort_values('ratingCount', ascending=False).head(10)
 
 	# Plot of Rating Distribution
 	subplot=plt.subplot(121)
@@ -37,8 +36,18 @@ def Distribution(ratings):
 	plt.xlabel('Age')
 	plt.ylabel('Count')
 	plt.show()
+	return res
 
-Distribution(ratings)
+def GenerateRandomRatingBook(ratings,books):
+	#rating_count = pd.DataFrame(ratings.groupby('ISBN')['bookRating'].count())
+	#rating_count.sort_values('bookRating', ascending=False).head(10)
+	most_rated_books = pd.DataFrame(['0971880107', '0316666343', '0385504209', '0060928336', '0312195516','044023722X','0679781587','0142001740','067976402X','0671027360'], index=np.arange(10), columns = ['ISBN'])
+	most_rated_books_summary = pd.merge(most_rated_books, books, on='ISBN')
+	res=[]
+	for i in list(most_rated_books_summary['bookTitle']):
+		res.append(str(i))
+	return res
+
 def Recommendation_System_BookList(us_canada_user_rating):
 	us_canada_user_rating_pivot = us_canada_user_rating.pivot(index = 'userID', columns = 'bookTitle', values = 'bookRating').fillna(0)
 	# us_canada_user_rating_pivot.head()
@@ -70,6 +79,17 @@ def Similarity(ratings):
 #print list(ratings['userID'])
 ratings = Similarity(ratings)
 us_canada_user_rating=KNN.Construct_Utility_Matrix(ratings,books,users)
+
+
+##############################################################
+# input a user and return recommended books
+most_rated_book = GenerateRandomRatingBook(ratings,books)
+input_vec = UserPredict.Build_Input_Vec(most_rated_book,us_canada_user_rating)
+UserPredict.User_Recommendation_Input(us_canada_user_rating,input_vec)
+##############################################################
+
+
+
 bookNameList = Recommendation_System_BookList(us_canada_user_rating)
 valid_id_list = Recommendation_System_userIdList(us_canada_user_rating)
 searchResultPairs = []
@@ -92,15 +112,12 @@ while True:
 # User-User Collaborative Filtering Recommendations
 if modeNum == 1:
 	while True:
-		try:
-			input_userid = int(raw_input("Please type in the user-ID (between 8 and 278854) you want: "))
-			if input_userid in valid_id_list:
-				UserPredict.User_Recommendation(us_canada_user_rating,input_userid)
-				break
-			else:
-				print "Non-valid user ID! Please try again."
-		except ValueError:
-			print "Could not convert the input to an integer."
+		input_userid = int(raw_input("Please type in the user-ID (between 8 and 278854) you want: "))
+		if input_userid in valid_id_list:
+			UserPredict.User_Recommendation(us_canada_user_rating,input_userid)
+			break
+		else:
+			print "Non-valid user ID! Please try again."
 
 # Book-Book Collaborative Filtering Recommendations
 if modeNum == 2:
